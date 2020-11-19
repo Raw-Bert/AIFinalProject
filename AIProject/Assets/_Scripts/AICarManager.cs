@@ -125,4 +125,25 @@ public class AICarManager : MonoBehaviour
             networks.Add(tmpNetwork);
         }
     }
+
+    //// Unity method for physics update
+    //void FixedUpdate()
+    //{
+    //    //Get control inputs from Agent
+    //    if (!UseUserInput)
+    //    {
+    //        //Get readings from sensors
+    //        double[] sensorOutput = new double[sensors.Length];
+    //        for (int i = 0; i < sensors.Length; i++)
+    //            sensorOutput[i] = sensors[i].Output;
+
+    //        double[] controlInputs = Agent.FNN.ProcessInputs(sensorOutput);
+    //        Movement.SetInputs(controlInputs);
+    //    }
+
+    //    if (timeSinceLastCheckpoint > MAX_CHECKPOINT_DELAY)
+    //    {
+    //        Die();
+    //    }
+    //}
 }
