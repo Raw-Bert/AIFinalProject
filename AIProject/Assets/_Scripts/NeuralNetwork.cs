@@ -8,6 +8,8 @@ public class NeuralNetwork
     float[][][] weight;
     float adaptation;
 
+    public NeuralNetwork() { }
+    
     public NeuralNetwork(int[] _layers)
     {
         this.layers = new int[_layers.Length];
@@ -162,7 +164,7 @@ public class NeuralNetwork
         }
     }
 
-    public void FittestCrossing(NeuralNetwork _parent1, NeuralNetwork _parent2)
+    public NeuralNetwork(NeuralNetwork _parent1, NeuralNetwork _parent2)
     {
         this.layers = new int[_parent1.layers.Length];
         for (int i = 0; i < _parent1.layers.Length; i++)
