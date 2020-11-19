@@ -6,8 +6,10 @@ public class NeuralNetwork
     int[] layers;
     float[][] neurons;
     float[][][] weight;
-    float adapt;
+    float adaptation;
 
+    public NeuralNetwork() { }
+    
     public NeuralNetwork(int[] _layers)
     {
         this.layers = new int[_layers.Length];
@@ -16,24 +18,24 @@ public class NeuralNetwork
             this.layers[i] = _layers[i];
         }
 
-        InitiateNerous();
+        InitiateNeurons();
         InitiateWeights();
     }
 
-    public NeuralNetwork(NeuralNetwork _oldNetwork)
+    public NeuralNetwork(NeuralNetwork _inheritNetwork)
     {
-        this.layers = new int[_oldNetwork.layers.Length];
-        for(int i = 0; i < _oldNetwork.layers.Length; i++)
+        this.layers = new int[_inheritNetwork.layers.Length];
+        for(int i = 0; i < _inheritNetwork.layers.Length; i++)
         {
-            this.layers[i] = _oldNetwork.layers[i];
+            this.layers[i] = _inheritNetwork.layers[i];
         }
 
-        InitiateNerous();
+        InitiateNeurons();
         InitiateWeights();
-        TransferWeight(_oldNetwork.weight);
+        InheritWeight(_inheritNetwork.weight);
     }
 
-    void TransferWeight(float[][][] _oldWeight)
+    void InheritWeight(float[][][] _oldWeight)
     {
         for (int i = 0; i < weight.Length; i++)
         {
@@ -47,7 +49,7 @@ public class NeuralNetwork
         }
     }
 
-    void InitiateNerous()
+    void InitiateNeurons()
     {
         List<float[]> listNeurons = new List<float[]>();
 
@@ -67,15 +69,17 @@ public class NeuralNetwork
         {
             List<float[]> layerWeight = new List<float[]>();
 
-            int preLayerNerons = layers[i - 1];
+            int preLayerNeurons = layers[i - 1];
 
             for (int j = 0; j < neurons[i].Length; j++)
             {
-                float[] thisNeuronWeights = new float[preLayerNerons];
+                float[] thisNeuronWeights = new float[preLayerNeurons];
 
                 for(int k = 0; k < thisNeuronWeights.Length; k++)
                 {
-                    thisNeuronWeights[k] = UnityEngine.Random.Range(-0.5f, 0.5f);
+                    /////////////////////////////////////////////////////////////// ramdom weight why not 0 to 1?1to-1?
+                    //thisNeuronWeights[k] = UnityEngine.Random.Range(-0.5f, 0.5f);
+                    thisNeuronWeights[k] = UnityEngine.Random.Range(-1f, 1f);
                 }
 
                 layerWeight.Add(thisNeuronWeights);
@@ -85,12 +89,12 @@ public class NeuralNetwork
         weight = listWeight.ToArray();
     }
 
-    public float[]  neuronOutput(float[] inputs)
+    public float[]  FeedForwardProcess(float[] _inputs)
     {
         // assign value to first layer
-        for(int i = 0; i< inputs.Length; i++)
+        for(int i = 0; i< _inputs.Length; i++)
         {
-            neurons[0][i] = inputs[i];
+            neurons[0][i] = _inputs[i];
         }
 
         // loop through rest layers
@@ -103,15 +107,28 @@ public class NeuralNetwork
 
                 for (int k = 0; k < neurons[i-1].Length; k++)
                 {
+                    // plus this neuron's weight mutiplly it's value
                     v += weight[i - 1][j][k] * neurons[i - 1][k];
                 }
 
-                neurons[i][j] = (float)Math.Tanh(v);
+                ///////////////////////////////////////// Thanh(1, -1) Activation function consider switch to sigmoid(0,1)
+                //neurons[i][j] = (float)Math.Tanh(v);
+                neurons[i][j] = SigmoidFunction(v);
             }
         }
 
         // return the last layer value after calculation
         return neurons[neurons.Length - 1];
+    }
+
+    float SigmoidFunction(float _value)
+    {
+        if (_value > 10)
+            return 1.0f;
+        else if (_value < -10)
+            return 0.0f;
+        else
+            return 1.0f / (1.0f + (float)Math.Exp(_value));
     }
 
     public void Mutation()
@@ -124,16 +141,22 @@ public class NeuralNetwork
                 {
                     float thisWeight = weight[i][j][k];
 
+                    ///////////////////////////////rihgt now is just slightly mutate with random chooice
                     float randFloat = UnityEngine.Random.Range(0f, 100f);
 
-                    if (randFloat <= 2f)
-                        thisWeight *= -1f;
-                    else if (randFloat <= 4f)
-                        thisWeight = UnityEngine.Random.Range(-0.5f, 0.5f);
-                    else if (randFloat <= 6f)
-                        thisWeight *= UnityEngine.Random.Range(0f, 1f) + 1f;
-                    else if (randFloat <= 8f)
-                        thisWeight*= UnityEngine.Random.Range(0f, 1f);
+                    if(randFloat < 30f)
+                    {
+                        thisWeight += UnityEngine.Random.Range(2f, -2f);
+                    }
+
+                    //if (randFloat <= 2f)
+                    //    thisWeight *= -1f;
+                    //else if (randFloat <= 4f)
+                    //    thisWeight = UnityEngine.Random.Range(-0.5f, 0.5f);
+                    //else if (randFloat <= 6f)
+                    //    thisWeight *= UnityEngine.Random.Range(0f, 1f) + 1f;
+                    //else if (randFloat <= 8f)
+                    //    thisWeight*= UnityEngine.Random.Range(0f, 1f);
 
                     weight[i][j][k] = thisWeight;
                 }
@@ -141,28 +164,62 @@ public class NeuralNetwork
         }
     }
 
-    public void AddAdapt(float _adapt)
+    public NeuralNetwork(NeuralNetwork _parent1, NeuralNetwork _parent2)
     {
-        adapt += _adapt;
+        this.layers = new int[_parent1.layers.Length];
+        for (int i = 0; i < _parent1.layers.Length; i++)
+        {
+            this.layers[i] = _parent1.layers[i];
+        }
+
+        InitiateNeurons();
+        InitiateWeights();
+        SwapWeight(_parent1, _parent2);
     }
 
-    public void SetAdapt(float _adapt)
+    void SwapWeight(NeuralNetwork _p1, NeuralNetwork _p2)
     {
-        adapt = _adapt;
+        for (int i = 0; i < weight.Length; i++)
+        {
+            for (int j = 0; j < weight[i].Length; j++)
+            {
+                for (int k = 0; k < weight[i][j].Length; k++)
+                {
+                    float thisWeight = weight[i][j][k];
+
+                    float randFloat = UnityEngine.Random.Range(0f, 100f);
+
+                    if (randFloat < 65)
+                        weight[i][j][k] = _p1.weight[i][j][k];
+                    else
+                        weight[i][j][k] = _p2.weight[i][j][k];
+                }
+            }
+        }
     }
 
-    public float GetAdapt()
+    public void IncreaseAdaptation(float _adapt)
     {
-        return adapt;
+        adaptation += _adapt;
     }
 
-    public int AdaptValueComparesion(NeuralNetwork _otherNetwork)
+    public void SetAdaptation(float _adapt)
+    {
+        adaptation = _adapt;
+    }
+
+    public float GetAdaptation()
+    {
+        return adaptation;
+    }
+
+    public int CompareTo(NeuralNetwork _otherNetwork)
     {
         if (_otherNetwork == null)
             return 1;
-        else if (adapt > _otherNetwork.adapt)
+        else if (adaptation > _otherNetwork.adaptation)
             return 1;
-        else if (adapt < _otherNetwork.adapt)
+        else if (adaptation < _otherNetwork.adaptation)
             return -1;
         else
             return 0;
