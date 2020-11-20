@@ -11,8 +11,8 @@ public class AICarManager : MonoBehaviour
     public int generations = 0;
     public Text genText;
 
-    int population = 20;
-    int[] layersLevel = new int[] { 3, 5, 3, 1 };
+    public int population = 1;
+    int[] layersLevel = new int[] { 3, 10, 10, 1 };
     List<NeuralNetwork> networks;
     List<GameObject> cars;
     bool isAllDied = true;
@@ -37,12 +37,12 @@ public class AICarManager : MonoBehaviour
                         firstPlace = networks[i];
                         networks[i].SetAdaptation(0f);
                     }
-                    else if(i == 2)
+                    else if(i == 1)
                     {
                         secondPlace = networks[i];
                         networks[i].SetAdaptation(0f);
                     }
-                    else if(i > 2 && i < 5)
+                    else if(i > 1 && i < 5)
                     {
                         networks[i].Mutation();
                         networks[i].SetAdaptation(0f);
@@ -59,6 +59,7 @@ public class AICarManager : MonoBehaviour
                         networks[i].Mutation();
                         networks[i].SetAdaptation(0f);
                     }
+                    networks[i].Mutation();
                 }
             }
 
@@ -91,6 +92,7 @@ public class AICarManager : MonoBehaviour
             {
                 cars[i].transform.position = startPoint.transform.position;
                 cars[i].transform.rotation = startPoint.transform.rotation;
+                cars[i].SetActive(true);
             }
         }
         else
@@ -99,6 +101,7 @@ public class AICarManager : MonoBehaviour
             for(int i = 0; i < population; i++)
             {
                 GameObject tmpCar = Instantiate(car, startPoint.transform.position, startPoint.transform.rotation);
+                tmpCar.GetComponent<CarDrive>().Initiation(networks[i], startPoint, endPoint);
                 cars.Add(tmpCar);
             }
         }
@@ -106,10 +109,10 @@ public class AICarManager : MonoBehaviour
 
     void InitisteCarsNeuralNetworks()
     {
-        if (population != 20)
-        {
-            population = 20;
-        }
+        //if (population != 20)
+        //{
+        //    population = 20;
+        //}
 
         networks = new List<NeuralNetwork>();
 
