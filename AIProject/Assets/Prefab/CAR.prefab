@@ -27,9 +27,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnSpeed: 100
   moveSpeed: 5
-  rayObject: []
-  Rotation: {x: 0, y: 0, z: 0, w: 0}
-  startPoint: {fileID: 0}
+  rayObjects: []
   endPoint: {fileID: 0}
 --- !u!114 &2937958347946023577
 MonoBehaviour:
@@ -48,7 +46,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   markedPoint: {fileID: 2937958347835060154}
-  sensorPos: 
 --- !u!1 &2937958347369527236
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,7 +346,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   markedPoint: {fileID: 2937958347835060154}
-  sensorPos: Left
 --- !u!1 &2937958348521985528
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,7 +458,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   markedPoint: {fileID: 2937958347369527236}
-  sensorPos: Right
 --- !u!1 &2937958348589081789
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,7 +570,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   markedPoint: {fileID: 2937958348730527112}
-  sensorPos: Mid
 --- !u!1 &2937958348730527112
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,7 +748,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   markedPoint: {fileID: 2937958347835060154}
-  sensorPos: 
 --- !u!114 &2937958349212182648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -769,12 +762,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnSpeed: 100
   moveSpeed: 5
-  rayObject:
+  rayObjects:
   - {fileID: 2937958348521985528}
   - {fileID: 2937958348589081789}
   - {fileID: 2937958348405084410}
-  Rotation: {x: 0, y: 0, z: 0, w: 0}
-  startPoint: {fileID: 0}
   endPoint: {fileID: 0}
 --- !u!1001 &2937958348639725505
 PrefabInstance:

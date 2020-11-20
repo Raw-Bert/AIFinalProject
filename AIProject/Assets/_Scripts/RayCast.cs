@@ -1,5 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// Names: Lillian Fan, Robert Andersen, Safa Nazir, Rowan Luckhurst
+// Date: Nov 20, 2020
+
 using UnityEngine;
 
 public class RayCast : MonoBehaviour
