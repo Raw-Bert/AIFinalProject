@@ -12,7 +12,7 @@ public class RayCast : MonoBehaviour
 
     //public GameObject test;
     public LayerMask LayerSense;
-    private const float MAX_DIST = 8f;
+    private const float MAX_DIST = 3f;
     private const float MIN_DIST = 0.01f;
     public GameObject markedPoint;
     //Vector3 rot;
