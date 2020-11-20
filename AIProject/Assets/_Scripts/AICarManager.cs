@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class AICarManager : MonoBehaviour
@@ -8,6 +9,7 @@ public class AICarManager : MonoBehaviour
     public GameObject endPoint;
     public GameObject startPoint;
     public int generations = 0;
+    public Text genText;
 
     int population = 20;
     int[] layersLevel = new int[] { 3, 5, 3, 1 };
@@ -15,14 +17,6 @@ public class AICarManager : MonoBehaviour
     List<GameObject> cars;
     bool isAllDied = true;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (isAllDied)
@@ -69,6 +63,7 @@ public class AICarManager : MonoBehaviour
             }
 
             generations++;
+            genText.text = generations + " Generation";
             isAllDied = false;
             LoadCarsBodys();
         }
@@ -125,25 +120,4 @@ public class AICarManager : MonoBehaviour
             networks.Add(tmpNetwork);
         }
     }
-
-    //// Unity method for physics update
-    //void FixedUpdate()
-    //{
-    //    //Get control inputs from Agent
-    //    if (!UseUserInput)
-    //    {
-    //        //Get readings from sensors
-    //        double[] sensorOutput = new double[sensors.Length];
-    //        for (int i = 0; i < sensors.Length; i++)
-    //            sensorOutput[i] = sensors[i].Output;
-
-    //        double[] controlInputs = Agent.FNN.ProcessInputs(sensorOutput);
-    //        Movement.SetInputs(controlInputs);
-    //    }
-
-    //    if (timeSinceLastCheckpoint > MAX_CHECKPOINT_DELAY)
-    //    {
-    //        Die();
-    //    }
-    //}
 }
