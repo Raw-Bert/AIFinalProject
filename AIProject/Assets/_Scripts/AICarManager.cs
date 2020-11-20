@@ -1,5 +1,6 @@
 ﻿// Names: Lillian Fan, Robert Andersen, Safa Nazir, Rowan Luckhurst
 // Date: Nov 20, 2020
+// Neural Network help from: https://www.youtube.com/watch?v=Yq0SfuiOVYE&ab_channel=UnderpowerJet & https://arztsamuel.github.io/en/projects/unity/deepCars/deepCars.html
 
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -21,15 +22,15 @@ public class AICarManager : MonoBehaviour
 
     void Update()
     {
-        // if all car died, restart the game
+        // if all car crash into walls, restart the game
         if (isAllDied)
         {
-            // if this is the first time start the game, initialize cars' neural network
+            // if this is the first time starting the game, initialize cars' neural network
             if(generations == 0)
             {
                 InitCarsNeuralNetworks();
             }
-            // if this is not the first time, make evolution for all neural network to help they learn 
+            // if this is not the first time, make evolution for all neural network to help them learn 
             else
             {
                 // sort all neural networks, from good performance to bad performance
@@ -45,25 +46,25 @@ public class AICarManager : MonoBehaviour
                     // check is this the first one
                     if(i == 0)
                     {
-                        // keep the weight same, assign it to the best nueral network, reset it's adaptation 
+                        // keep the weight same, assign it to the best nueral network, reset its adaptation 
                         firstPlace = networks[i];
                         networks[i].SetAdaptation(0f);
                     }
-                    // check is this the second one
+                    // check if this is the second one
                     else if (i == 1)
                     {
-                        // keep the weight same, assign it to the second best nueral network, reset it's adaptation
+                        // keep the weight same, assign it to the second best nueral network, reset its adaptation
                         secondPlace = networks[i];
                         networks[i].SetAdaptation(0f);
                     }
-                    // check is this the 3 to 5 in the list
+                    // check if this is the 3 to 5 in the list
                     else if (i > 1 && i < 5)
                     {
                         // mutate the weights and reset the adaptation
                         networks[i].Mutation();
                         networks[i].SetAdaptation(0f);
                     }
-                    // check is this the 5 to 10 in the list
+                    // check if this is the 5 to 10 in the list
                     else if (i > 4 && i < 10)
                     {
                         // copy the best neural network's weight, mutate the coped weight and rest the adaption
@@ -71,10 +72,10 @@ public class AICarManager : MonoBehaviour
                         networks[i].Mutation();
                         networks[i].SetAdaptation(0f);
                     }
-                    // check is this the 11 to 20 in the list
+                    // check if this is the 11 to 20 in the list
                     else
                     {
-                        // inherit the weight by mix fiat and second, mutate the inherited weight and reset the adaptation
+                        // inherit the weight by mix first and second, mutate the inherited weight and reset the adaptation
                         networks[i].SwapWeight(firstPlace,secondPlace);
                         networks[i].Mutation();
                         networks[i].SetAdaptation(0f);
@@ -84,7 +85,7 @@ public class AICarManager : MonoBehaviour
 
             // increase the genration by one
             generations++;
-            // set the generation text to new generation text
+            // set the generation text to new generation text showed during the game
             genText.text = "Generation " + generations;
             // set the game all cars died to false
             isAllDied = false;
@@ -92,7 +93,7 @@ public class AICarManager : MonoBehaviour
             LoadCarsBodys();
         }
 
-        // check if all cards died, set the bool to true
+        // check if all cards have crashed, set the bool to true
         if (!AllCarsActive())
             isAllDied = true;
     }
@@ -111,7 +112,7 @@ public class AICarManager : MonoBehaviour
         return _allCarActive;
     }
 
-    // load or active all cars game object
+    // load or activate all cars game object
     void LoadCarsBodys()
     {
         // if already are cars there
@@ -128,10 +129,10 @@ public class AICarManager : MonoBehaviour
                 cars[i].SetActive(true);
             }
         }
-        // if is the start of game
+        // if start of game
         else
         {
-            // inite the cars
+            // initiate the cars
             cars = new List<GameObject>();
             // generate the cars amount same as population
             for(int i = 0; i < population; i++)
@@ -149,7 +150,7 @@ public class AICarManager : MonoBehaviour
     // initialize cars neural network
     void InitCarsNeuralNetworks()
     {
-        // inite the networks
+        // initiate the networks
         networks = new List<NeuralNetwork>();
 
         // generate the amount of neral networks same as the population
@@ -157,9 +158,9 @@ public class AICarManager : MonoBehaviour
         {
             // inite the neural network by using the layer sructure
             NeuralNetwork tmpNetwork = new NeuralNetwork(layersLevel);
-            // muate this neural network
+            // mutate this neural network
             tmpNetwork.Mutation();
-            // add this nueral network to the neural networks list
+            // add this neural network to the neural networks list
             networks.Add(tmpNetwork);
         }
     }

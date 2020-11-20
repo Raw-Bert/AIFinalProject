@@ -1,21 +1,22 @@
 ﻿// Names: Lillian Fan, Robert Andersen, Safa Nazir, Rowan Luckhurst
 // Date: Nov 20, 2020
+// Neural Network help from: https://www.youtube.com/watch?v=Yq0SfuiOVYE&ab_channel=UnderpowerJet & https://arztsamuel.github.io/en/projects/unity/deepCars/deepCars.html
 
 using System.Collections.Generic;
 using System;
 
 public class NeuralNetwork : IComparable<NeuralNetwork>
 {
-    // contain number of neurons in each layer
+    // contains number of neurons in each layer
     int[] layers;
-    // contain final result of each neurons in each layer
+    // contains final result of each neurons in each layer
     float[][] neurons;
-    // contain the weights of each neurons from previous layer wich associate to this neuron in each layer 
+    // contains the weights of each neuron from previous layer wich associate to this neuron in each layer 
     float[][][] weight;
     // score of how good this neural netwoek performed
     float adaptation;
 
-    // constrctor for create a empty NeuralNetwork class
+    // constrctor to create an empty NeuralNetwork class
     public NeuralNetwork() { }
     
 
@@ -70,10 +71,10 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
             // loop all neurons in this layer
             for (int j = 0; j < neurons[i].Length; j++)
             {
-                // create a array to help save all accociate neurons's weights in this neuron
+                // create an array to help save all accociate neurons's weights in this neuron
                 float[] thisNeuronWeights = new float[preLayerNeurons];
 
-                // loop throught all previous layer's neurons
+                // loop through all previous layer's neurons
                 for(int k = 0; k < thisNeuronWeights.Length; k++)
                 {
                     // assign the random weight between -1 to 1 for all associate neurons
@@ -118,7 +119,7 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
                 // apply the Sigmiod Functions as activition function and assign the result to this neuron
                 // the result will between 0 to 1
                 neurons[i][j] = SigmoidFunction(v);
-                // minus 0.5 will hel conver the result to btween -0.5 to 0.5
+                // minus 0.5 will help convert the result between -0.5 to 0.5
                 neurons[i][j] -= 0.5f;
             }
         }
@@ -156,7 +157,7 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
                     // generate a random float between 0 to 100
                     float randFloat = UnityEngine.Random.Range(0f, 100f);
 
-                    // add up the 30% wiehgt with a randome number between 2 to -2 
+                    // add up the 30% wieght with a random number between 2 to -2 
                     if (randFloat < 30f)
                     {
                         thisWeight += UnityEngine.Random.Range(2f, -2f);
@@ -169,7 +170,7 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
         }
     }
 
-    // inherite the weight from other neural network's weight
+    // inherit the weight from other neural network's weight
     public void InheritWeight(float[][][] _oldWeight)
     {
         // loop through all weights and copy the new weight to this weight
@@ -185,7 +186,7 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
         }
     }
 
-    // inherit the weight from two other neural network 
+    // inherit the weight from two other neural networks 
     public void SwapWeight(NeuralNetwork _p1, NeuralNetwork _p2)
     {
         // loop through all the weights
@@ -195,10 +196,10 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
             {
                 for (int k = 0; k < weight[i][j].Length; k++)
                 {
-                    // generate a randome float between 1 to 100
+                    // generate a random float between 1 to 100
                     float randFloat = UnityEngine.Random.Range(0f, 100f);
 
-                    // it hve 65% pacent to copy the first parent's weight and 35% with the second parent
+                    // it has 65% percent to copy the first parent's weight and 35% with the second parent
                     if (randFloat < 65)
                         weight[i][j][k] = _p1.weight[i][j][k];
                     else
@@ -220,8 +221,8 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
         return weight;
     }
 
-    // compare two neural netwoeks based on their adaptation
-    // overrite the .Sort() function
+    // compare two neural networks based on their adaptation
+    // overwrite the .Sort() function
     public int CompareTo(NeuralNetwork _otherNetwork)
     {
         if (_otherNetwork == null)

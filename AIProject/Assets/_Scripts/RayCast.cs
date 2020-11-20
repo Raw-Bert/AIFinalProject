@@ -1,5 +1,6 @@
 ﻿// Names: Lillian Fan, Robert Andersen, Safa Nazir, Rowan Luckhurst
 // Date: Nov 20, 2020
+// Neural Network help from: https://www.youtube.com/watch?v=Yq0SfuiOVYE&ab_channel=UnderpowerJet & https://arztsamuel.github.io/en/projects/unity/deepCars/deepCars.html
 // This script is attached to the sensor objects
 // This script is responsible for raycasting from the sensors on the cars towards the red cylinders in order to find out how far away walls are.
 using UnityEngine;
