@@ -35,12 +35,12 @@ public class CarDrive : MonoBehaviour
             rays[i] = rayObject[i].GetComponent<RayCast>();
     }
 
-    void Update() 
-    {
-        moveHorizontal = Input.GetAxisRaw ("Horizontal");
+    //void Update() 
+    //{
+        //moveHorizontal = Input.GetAxisRaw ("Horizontal");
         //moveVertical = Input.GetAxisRaw ("Vertical");
         
-    }
+    //}
 
     void FixedUpdate () 
     {
@@ -83,7 +83,7 @@ public class CarDrive : MonoBehaviour
 
         this.transform.position += direction * moveSpeed * Time.deltaTime;
 
-        float tmpAdaptation = (distanceStartToEnd - Vector3.Distance(this.transform.position, endPoint.transform.position)) / distanceStartToEnd;
-        network.IncreaseAdaptation(tmpAdaptation);
+        //float tmpAdaptation = (distanceStartToEnd - Vector3.Distance(this.transform.position, endPoint.transform.position)) / distanceStartToEnd;
+        //network.IncreaseAdaptation(tmpAdaptation);
     }
 }

@@ -770,9 +770,9 @@ MonoBehaviour:
   turnSpeed: 100
   moveSpeed: 5
   rayObject:
-  - {fileID: 2937958348405084410}
-  - {fileID: 2937958348589081789}
   - {fileID: 2937958348521985528}
+  - {fileID: 2937958348589081789}
+  - {fileID: 2937958348405084410}
   Rotation: {x: 0, y: 0, z: 0, w: 0}
   startPoint: {fileID: 0}
   endPoint: {fileID: 0}

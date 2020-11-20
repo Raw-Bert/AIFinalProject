@@ -12,7 +12,7 @@ public class AICarManager : MonoBehaviour
     public Text genText;
 
     public int population = 1;
-    int[] layersLevel = new int[] { 3, 10, 10, 1 };
+    int[] layersLevel = new int[] { 3, 4, 3, 1 };
     List<NeuralNetwork> networks;
     List<GameObject> cars;
     bool isAllDied = true;
@@ -49,17 +49,16 @@ public class AICarManager : MonoBehaviour
                     }
                     else if(i > 4 && i < 10)
                     {
-                        networks[i] = new NeuralNetwork(networks[i - 5]);
+                        networks[i].InheritWeight(firstPlace.getWeight());
                         networks[i].Mutation();
                         networks[i].SetAdaptation(0f);
                     }
                     else
                     {
-                        networks[i] = new NeuralNetwork(firstPlace, secondPlace);
+                        networks[i].SwapWeight(firstPlace,secondPlace);
                         networks[i].Mutation();
                         networks[i].SetAdaptation(0f);
                     }
-                    networks[i].Mutation();
                 }
             }
 
@@ -109,11 +108,6 @@ public class AICarManager : MonoBehaviour
 
     void InitisteCarsNeuralNetworks()
     {
-        //if (population != 20)
-        //{
-        //    population = 20;
-        //}
-
         networks = new List<NeuralNetwork>();
 
         for(int i = 0; i< population; i++)

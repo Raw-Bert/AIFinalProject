@@ -4,20 +4,9 @@ using UnityEngine;
 
 public class WallDetector : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter(Collider other)
     {
+        other.gameObject.GetComponent<CarDrive>().network.SetAdaptation(Vector3.Distance(other.gameObject.transform.position, other.gameObject.GetComponent<CarDrive>().endPoint.transform.position));
         other.gameObject.SetActive(false);
     }
 }
