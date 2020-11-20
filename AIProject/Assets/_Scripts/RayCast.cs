@@ -10,6 +10,8 @@ public class RayCast : MonoBehaviour
     //float width = 0.05f;
     //public LineRenderer lineRender;
 
+    public float inputDistance;
+
     //public GameObject test;
     public LayerMask LayerSense;
     private const float MAX_DIST = 5f;
@@ -39,7 +41,7 @@ public class RayCast : MonoBehaviour
         Vector2 direction = new Vector2((markedPoint.transform.position.x - this.transform.position.x),(markedPoint.transform.position.z - this.transform.position.z));
         direction.Normalize();
         Vector3 dirrr = new Vector3(direction.x,0, direction.y);
-        Debug.Log(sensorPos + " Normalized Direction: " + direction);
+        //Debug.Log(sensorPos + " Normalized Direction: " + direction);
         //Good god what is this line //Debug.DrawLine (markedPoint.transform.position, new Vector2(markedPoint.transform.position.x, markedPoint.transform.position.y) + direction, Color.red, Mathf.Infinity);
 
         RaycastHit hit;
@@ -52,16 +54,16 @@ public class RayCast : MonoBehaviour
        //RaycastHit hit = Physics.Raycast(this.transform.position, direction, MAX_DIST, LayerSense);
 
        //markedPoint.transform.position = (Vector3) this.transform.position + direction * hit.distance;
-        Debug.DrawRay(this.transform.position, direction);
+        //Debug.DrawRay(this.transform.position, direction);
         
         if(Physics.Raycast(this.transform.position, dirrr, out hit, MAX_DIST, LayerSense))
         {
             
-            Debug.Log(sensorPos + " Dist: " + hit.distance);
+            //Debug.Log(sensorPos + " Dist: " + hit.distance);
             if (hit.distance < MIN_DIST)
             {
                 hit.distance = MIN_DIST;
-                Debug.Log("Hit Distance Min: " + hit.distance);
+                //Debug.Log("Hit Distance Min: " + hit.distance);
             }
             //
             //direction = new Vector3(direction.x,0,direction.y);
@@ -74,9 +76,10 @@ public class RayCast : MonoBehaviour
         if(hit.collider == null)
         {
             hit.distance = MAX_DIST;
-            Debug.Log("Hit Distance null: " + hit.distance);
+            //Debug.Log("Hit Distance null: " + hit.distance);
         }
-            
+
+        inputDistance = hit.distance;
         Vector3 tempDir = new Vector3(direction.x,0,direction.y);
         markedPoint.transform.position = (Vector3)this.transform.position + tempDir * hit.distance;
     }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 
-public class NeuralNetwork
+public class NeuralNetwork : IComparable<NeuralNetwork>
 {
     int[] layers;
     float[][] neurons;
@@ -112,8 +112,8 @@ public class NeuralNetwork
                 }
 
                 ///////////////////////////////////////// Thanh(1, -1) Activation function consider switch to sigmoid(0,1)
-                //neurons[i][j] = (float)Math.Tanh(v);
-                neurons[i][j] = SigmoidFunction(v);
+                neurons[i][j] = (float)Math.Tanh(v);
+                //neurons[i][j] = SigmoidFunction(v);
             }
         }
 
@@ -144,7 +144,7 @@ public class NeuralNetwork
                     ///////////////////////////////rihgt now is just slightly mutate with random chooice
                     float randFloat = UnityEngine.Random.Range(0f, 100f);
 
-                    if(randFloat < 30f)
+                    if (randFloat < 30f)
                     {
                         thisWeight += UnityEngine.Random.Range(2f, -2f);
                     }
@@ -156,7 +156,7 @@ public class NeuralNetwork
                     //else if (randFloat <= 6f)
                     //    thisWeight *= UnityEngine.Random.Range(0f, 1f) + 1f;
                     //else if (randFloat <= 8f)
-                    //    thisWeight*= UnityEngine.Random.Range(0f, 1f);
+                    //    thisWeight *= UnityEngine.Random.Range(0f, 1f);
 
                     weight[i][j][k] = thisWeight;
                 }
@@ -215,14 +215,15 @@ public class NeuralNetwork
 
     public int CompareTo(NeuralNetwork _otherNetwork)
     {
-        if (_otherNetwork == null)
-            return 1;
-        else if (adaptation > _otherNetwork.adaptation)
-            return 1;
-        else if (adaptation < _otherNetwork.adaptation)
-            return -1;
-        else
-            return 0;
+        //if (_otherNetwork == null)
+        //    return 1;
+        //else if (adaptation > _otherNetwork.adaptation)
+        //    return 1;
+        //else if (adaptation < _otherNetwork.adaptation)
+        //    return -1;
+        //else
+        //    return 0;
+        return (int)(adaptation - _otherNetwork.adaptation);
 
     }
 }

@@ -8,19 +8,37 @@ public class CarDrive : MonoBehaviour
     public float moveSpeed = 5f;
     Rigidbody rb;
     float moveHorizontal;
-    float moveVertical;
+    //float moveVertical;
     //Vector3 movement;
+    public GameObject[] rayObject;
+    RayCast[] rays;
 
     public Quaternion Rotation;
+    public NeuralNetwork network;
+    public GameObject startPoint;
+    public GameObject endPoint;
+    float distanceStartToEnd;
+
+    public void Initiation(NeuralNetwork _network,GameObject _startPoint, GameObject _endPoint)
+    {
+        network = _network;
+        startPoint = _startPoint;
+        endPoint = _endPoint;
+        distanceStartToEnd = Vector3.Distance(startPoint.transform.position, endPoint.transform.position);
+    }
 
     void Start() {
         rb = GetComponent<Rigidbody>();
+
+        rays = new RayCast[rayObject.Length];
+        for (int i = 0; i < rayObject.Length; i++)
+            rays[i] = rayObject[i].GetComponent<RayCast>();
     }
 
     void Update() 
     {
         moveHorizontal = Input.GetAxisRaw ("Horizontal");
-        moveVertical = Input.GetAxisRaw ("Vertical");
+        //moveVertical = Input.GetAxisRaw ("Vertical");
         
     }
 
@@ -41,10 +59,16 @@ public class CarDrive : MonoBehaviour
 
         //transform.Translate (movement * moveSpeed * Time.deltaTime, Space.World);
 
-        if (moveVertical > 1)
-            moveVertical = 1;
-        else if (moveVertical < -1)
-            moveVertical = -1;
+        float[] _raysInput = new float[rays.Length];
+        for (int i = 0; i < rays.Length; i++)
+            _raysInput[i] = rays[i].inputDistance;
+        float[] rotationOutput = network.FeedForwardProcess(_raysInput);
+        moveHorizontal = rotationOutput[0];
+
+        //if (moveVertical > 1)
+        //    moveVertical = 1;
+        //else if (moveVertical < -1)
+        //    moveVertical = -1;
 
         if (moveHorizontal > 1)
             moveHorizontal = 1;
@@ -59,5 +83,7 @@ public class CarDrive : MonoBehaviour
 
         this.transform.position += direction * moveSpeed * Time.deltaTime;
 
+        float tmpAdaptation = (distanceStartToEnd - Vector3.Distance(this.transform.position, endPoint.transform.position)) / distanceStartToEnd;
+        network.IncreaseAdaptation(tmpAdaptation);
     }
 }
