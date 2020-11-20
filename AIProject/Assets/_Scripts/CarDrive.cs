@@ -52,7 +52,7 @@ public class CarDrive : MonoBehaviour
             moveHorizontal = -1;
 
         Rotation = transform.rotation;
-        Rotation *= Quaternion.AngleAxis((float)-moveHorizontal * turnSpeed * Time.deltaTime, new Vector3(0, 1, 0));
+        Rotation *= Quaternion.AngleAxis((float)-moveHorizontal * turnSpeed * Time.deltaTime, new Vector3(0, -1, 0));
         transform.rotation = Rotation;
         Vector3 direction = new Vector3(1, 0, 0);
         direction = Rotation * direction;
