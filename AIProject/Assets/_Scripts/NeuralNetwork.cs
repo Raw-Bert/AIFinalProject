@@ -22,32 +22,18 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
         InitiateWeights();
     }
 
-    public NeuralNetwork(NeuralNetwork _inheritNetwork)
-    {
-        this.layers = new int[_inheritNetwork.layers.Length];
-        for(int i = 0; i < _inheritNetwork.layers.Length; i++)
-        {
-            this.layers[i] = _inheritNetwork.layers[i];
-        }
+    //public NeuralNetwork(NeuralNetwork _inheritNetwork)
+    //{
+    //    this.layers = new int[_inheritNetwork.layers.Length];
+    //    for(int i = 0; i < _inheritNetwork.layers.Length; i++)
+    //    {
+    //        this.layers[i] = _inheritNetwork.layers[i];
+    //    }
 
-        InitiateNeurons();
-        InitiateWeights();
-        InheritWeight(_inheritNetwork.weight);
-    }
-
-    void InheritWeight(float[][][] _oldWeight)
-    {
-        for (int i = 0; i < weight.Length; i++)
-        {
-            for(int j = 0; j < weight[i].Length; j++)
-            {
-                for(int k = 0; k< weight[i][j].Length; k++)
-                {
-                    weight[i][j][k] = _oldWeight[i][j][k];
-                }
-            }
-        }
-    }
+    //    InitiateNeurons();
+    //    InitiateWeights();
+    //    InheritWeight(_inheritNetwork.weight);
+    //}
 
     void InitiateNeurons()
     {
@@ -112,8 +98,9 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
                 }
 
                 ///////////////////////////////////////// Thanh(1, -1) Activation function consider switch to sigmoid(0,1)
-                neurons[i][j] = (float)Math.Tanh(v);
-                //neurons[i][j] = SigmoidFunction(v);
+                //neurons[i][j] = (float)Math.Tanh(v);
+                neurons[i][j] = SigmoidFunction(v);
+                neurons[i][j] -= 0.5f;
             }
         }
 
@@ -164,20 +151,34 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
         }
     }
 
-    public NeuralNetwork(NeuralNetwork _parent1, NeuralNetwork _parent2)
+    public void InheritWeight(float[][][] _oldWeight)
     {
-        this.layers = new int[_parent1.layers.Length];
-        for (int i = 0; i < _parent1.layers.Length; i++)
+        for (int i = 0; i < weight.Length; i++)
         {
-            this.layers[i] = _parent1.layers[i];
+            for (int j = 0; j < weight[i].Length; j++)
+            {
+                for (int k = 0; k < weight[i][j].Length; k++)
+                {
+                    weight[i][j][k] = _oldWeight[i][j][k];
+                }
+            }
         }
-
-        InitiateNeurons();
-        InitiateWeights();
-        SwapWeight(_parent1, _parent2);
     }
 
-    void SwapWeight(NeuralNetwork _p1, NeuralNetwork _p2)
+    //public NeuralNetwork(NeuralNetwork _parent1, NeuralNetwork _parent2)
+    //{
+    //    this.layers = new int[_parent1.layers.Length];
+    //    for (int i = 0; i < _parent1.layers.Length; i++)
+    //    {
+    //        this.layers[i] = _parent1.layers[i];
+    //    }
+
+    //    InitiateNeurons();
+    //    InitiateWeights();
+    //    SwapWeight(_parent1, _parent2);
+    //}
+
+    public void SwapWeight(NeuralNetwork _p1, NeuralNetwork _p2)
     {
         for (int i = 0; i < weight.Length; i++)
         {
@@ -198,32 +199,37 @@ public class NeuralNetwork : IComparable<NeuralNetwork>
         }
     }
 
-    public void IncreaseAdaptation(float _adapt)
-    {
-        adaptation += _adapt;
-    }
+    //public void IncreaseAdaptation(float _adapt)
+    //{
+    //    adaptation += _adapt;
+    //}
 
     public void SetAdaptation(float _adapt)
     {
         adaptation = _adapt;
     }
 
-    public float GetAdaptation()
+    //public float GetAdaptation()
+    //{
+    //    return adaptation;
+    //}
+
+    public float[][][] getWeight()
     {
-        return adaptation;
+        return weight;
     }
 
     public int CompareTo(NeuralNetwork _otherNetwork)
     {
-        //if (_otherNetwork == null)
-        //    return 1;
-        //else if (adaptation > _otherNetwork.adaptation)
-        //    return 1;
-        //else if (adaptation < _otherNetwork.adaptation)
-        //    return -1;
-        //else
-        //    return 0;
-        return (int)(adaptation - _otherNetwork.adaptation);
+        if (_otherNetwork == null)
+            return 1;
+        else if (adaptation > _otherNetwork.adaptation)
+            return 1;
+        else if (adaptation < _otherNetwork.adaptation)
+            return -1;
+        else
+            return 0;
+        //return (int)(adaptation - _otherNetwork.adaptation);
 
     }
 }
